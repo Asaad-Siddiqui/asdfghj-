@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '@/context/AppContext'
-import { Bell, Menu, X, MapPin, Compass, Sparkles, Trophy, LayoutDashboard, Shield, ChevronDown } from 'lucide-react'
+import { Bell, Menu, X, Leaf, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function Header() {
@@ -11,105 +11,99 @@ export function Header() {
   const unreadCount = notifications.filter((n) => !n.read).length
 
   const navItems = [
-    { to: '/home', label: 'Home', icon: Compass },
-    { to: '/destinations', label: 'Explore', icon: MapPin },
-    { to: '/trip-planner', label: 'AI Planner', icon: Sparkles },
-    { to: '/challenges', label: 'Challenges', icon: Trophy },
-    { to: '/impact', label: 'My Impact', icon: null },
-    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/dashboard', label: 'Dashboard' },
+    { to: '/destinations', label: 'Destinations' },
+    { to: '/trip-planner', label: 'Plan Trip' },
+    { to: '/challenges', label: 'Eco-Challenges' },
+    { to: '/reports/new', label: 'Reports' },
+    { to: '/destinations?filter=accessible', label: 'Accessibility' },
   ]
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-sand-200/60 shadow-2xs">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-sand-200/80 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-18">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-forest-600 to-forest-800 rounded-2xl flex items-center justify-center shadow-md shadow-forest-700/20 group-hover:scale-105 group-hover:shadow-forest-700/30 transition-all">
-              <span className="text-white font-black text-lg tracking-tight">T</span>
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          
+          {/* Brand Logo */}
+          <Link to="/dashboard" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 bg-emerald-600 rounded-full flex items-center justify-center text-white shadow-md shadow-emerald-700/20 group-hover:scale-105 transition-transform">
+              <Leaf className="w-5 h-5 fill-current text-emerald-100" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-forest-900 tracking-tight leading-none group-hover:text-forest-700 transition-colors">
+              <span className="text-lg font-black text-forest-950 tracking-tight leading-none font-sans-ui">
                 TRAVELLO
               </span>
-              <span className="text-[10px] font-bold text-forest-600 tracking-wider uppercase">
-                Green & Inclusive
+              <span className="text-[9px] font-bold text-forest-600 tracking-wider uppercase mt-0.5">
+                GREEN & INCLUSIVE TRAVEL
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1.5 bg-white/70 backdrop-blur-md rounded-2xl border border-sand-200/70 p-1.5 shadow-2xs">
+          {/* Center Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 sm:gap-2">
             {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = location.pathname === item.to || (item.to !== '/home' && location.pathname.startsWith(item.to))
+              const isActive =
+                (item.to === '/dashboard' && (location.pathname === '/dashboard' || location.pathname === '/home')) ||
+                (item.to !== '/dashboard' && location.pathname.startsWith(item.to.split('?')[0]))
+
               return (
                 <Link
-                  key={item.to}
+                  key={item.label}
                   to={item.to}
                   className={cn(
-                    'flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200',
+                    'px-3.5 py-1.5 rounded-full text-sm font-semibold transition-all duration-150',
                     isActive
-                      ? 'bg-forest-700 text-white shadow-sm shadow-forest-800/20'
-                      : 'text-sand-700 hover:text-forest-800 hover:bg-forest-50/80'
+                      ? 'bg-forest-50 text-forest-900 border border-forest-200/80 font-bold shadow-2xs'
+                      : 'text-sand-700 hover:text-forest-900 hover:bg-sand-100/60'
                   )}
                 >
-                  {Icon && <Icon className={cn('w-4 h-4', isActive ? 'text-emerald-300' : 'text-sand-400')} />}
                   {item.label}
                 </Link>
               )
             })}
           </nav>
 
-          {/* Right side actions */}
+          {/* Right Action Items */}
           <div className="flex items-center gap-3">
-            {/* Role indicator badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-forest-50 border border-forest-200/80 rounded-xl text-xs font-bold text-forest-800 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="capitalize">{user.role} Mode</span>
-            </div>
-
-            {/* Notifications Button */}
-            <button className="relative p-2.5 text-sand-600 hover:text-forest-800 hover:bg-white/90 rounded-xl transition-all border border-transparent hover:border-sand-200">
-              <Bell className="w-5 h-5" />
+            {/* Bell Notifications */}
+            <button className="relative p-2.5 text-sand-700 hover:text-forest-950 hover:bg-sand-100 rounded-full transition-all border border-sand-200/60">
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
               {unreadCount > 0 && (
-                <span className="absolute 1 top-1.5 right-1.5 w-4 h-4 bg-emerald-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">
+                <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">
                   {unreadCount}
                 </span>
               )}
             </button>
 
-            {/* Profile Avatar */}
+            {/* Profile Pill */}
             <Link
               to="/profile"
-              className="flex items-center gap-2.5 p-1 pr-3 bg-white/80 border border-sand-200 rounded-2xl hover:border-forest-300 transition-all shadow-2xs group"
+              className="flex items-center gap-2 p-1 pr-2.5 bg-sand-50 hover:bg-sand-100/80 border border-sand-200 rounded-full transition-all shadow-2xs group"
             >
-              <div className="w-9 h-9 rounded-xl overflow-hidden ring-2 ring-forest-500/20 group-hover:ring-forest-500/40 transition-all">
+              <div className="w-8 h-8 rounded-full overflow-hidden ring-1 ring-emerald-500/30">
                 {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-forest-500 to-forest-700 flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-full h-full bg-emerald-700 flex items-center justify-center text-white text-xs font-bold">
                     {user.displayName.charAt(0)}
                   </div>
                 )}
               </div>
-              <div className="hidden md:block text-left">
-                <p className="text-xs font-bold text-forest-900 leading-tight group-hover:text-forest-700 transition-colors">
-                  {user.displayName.split(' ')[0]}
-                </p>
-                <p className="text-[10px] font-semibold text-emerald-700">
-                  {user.impactPoints} pts
-                </p>
+              <div className="hidden sm:flex items-center gap-1">
+                <span className="text-xs font-bold text-forest-950">
+                  Hi, {user.displayName ? user.displayName.split(' ')[0] : 'Ananya'}
+                </span>
+                <ChevronDown className="w-3.5 h-3.5 text-sand-500 group-hover:translate-y-0.5 transition-transform" />
               </div>
             </Link>
 
-            {/* Mobile menu hamburger */}
+            {/* Green Circular Menu Button */}
             <button
-              className="lg:hidden p-2.5 text-sand-600 hover:text-forest-800 hover:bg-white rounded-xl transition-all border border-sand-200"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
+              className="p-2.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full transition-all shadow-sm"
+              aria-label="Toggle Navigation"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
           </div>
         </div>
@@ -117,41 +111,18 @@ export function Header() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-sand-200/70 bg-white/98 backdrop-blur-2xl animate-slide-down shadow-xl">
-          <div className="px-4 py-4 space-y-1.5">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = location.pathname === item.to || (item.to !== '/home' && location.pathname.startsWith(item.to))
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={cn(
-                    'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all',
-                    isActive
-                      ? 'bg-forest-700 text-white'
-                      : 'text-sand-700 hover:bg-sand-100'
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {Icon && <Icon className={cn('w-5 h-5', isActive ? 'text-emerald-300' : 'text-sand-400')} />}
-                  {item.label}
-                </Link>
-              )
-            })}
-            
-            <div className="pt-2 border-t border-sand-200 mt-2">
+        <div className="lg:hidden border-t border-sand-200 bg-white shadow-xl animate-slide-down">
+          <div className="px-4 py-4 space-y-1">
+            {navItems.map((item) => (
               <Link
-                to="/profile"
-                className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold text-sand-700 hover:bg-sand-100"
+                key={item.label}
+                to={item.to}
+                className="block px-4 py-2.5 rounded-xl text-sm font-bold text-forest-950 hover:bg-forest-50 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>My Profile & Settings</span>
-                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs rounded-full font-bold">
-                  {user.impactPoints} pts
-                </span>
+                {item.label}
               </Link>
-            </div>
+            ))}
           </div>
         </div>
       )}

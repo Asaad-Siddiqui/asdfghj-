@@ -22,11 +22,11 @@ export default function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<LoginPage />} />
           <Route element={<Layout />}>
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<LandingPage />} />
             <Route path="/destinations" element={<DestinationsPage />} />
             <Route path="/destinations/:id" element={<DestinationHubPage />} />
             <Route path="/trip-planner" element={<TripPlannerPage />} />

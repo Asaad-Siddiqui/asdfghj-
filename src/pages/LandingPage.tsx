@@ -1,410 +1,734 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useApp } from '@/context/AppContext'
 import {
-  ArrowRight,
   Leaf,
-  MapPin,
-  Shield,
   Users,
-  Trophy,
-  TrendingUp,
-  Globe,
-  Recycle,
+  Droplets,
   Accessibility,
-  Sparkles,
-  ChevronRight,
-  ArrowUpRight,
+  Sprout,
+  ArrowRight,
   Play,
-  CheckCircle2,
-  AlertTriangle,
-  Compass,
   Star,
-  Zap,
-  BarChart3,
-  Clock,
-  ShieldCheck,
+  ChevronRight,
+  Compass,
   Building2,
-  TreePine,
+  AlertTriangle,
+  Trophy,
+  CheckCircle2,
+  Clock,
+  Eye,
+  Bot,
+  MapPin,
+  Calendar,
+  Sparkles,
+  Award,
+  Bus,
+  Utensils,
+  Car,
+  Check,
+  Building,
+  Mountain,
+  Globe,
+  ShieldCheck,
+  TrendingUp,
+  BarChart3,
+  ArrowUpRight,
 } from 'lucide-react'
-import { SustainabilityScore } from '@/components/common/SustainabilityScore'
-import { destinations } from '@/data/mock-data'
 import { cn } from '@/lib/utils'
+import { destinations } from '@/data/mock-data'
 
 export function LandingPage() {
+  const { user, challenges, startChallenge } = useApp()
+  const navigate = useNavigate()
+  const [challengeStarted, setChallengeStarted] = useState(false)
+
+  const todayChallenge = challenges[0] || {
+    id: 'c1',
+    title: 'Carry & use a reusable bag',
+    description: 'Avoid single-use plastic.',
+    points: 20,
+    estimatedMinutes: 5,
+    difficulty: 'easy',
+  }
+
+  const handleStartChallenge = () => {
+    if (todayChallenge?.id) {
+      startChallenge(todayChallenge.id)
+      setChallengeStarted(true)
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-mesh selection:bg-emerald-500 selection:text-white">
-      {/* ── Top Navigation Bar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-sand-200/60 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-forest-600 to-forest-800 rounded-2xl flex items-center justify-center shadow-md shadow-forest-700/20 group-hover:scale-105 transition-transform">
-              <span className="text-white font-black text-lg">T</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black text-forest-900 tracking-tight leading-none group-hover:text-forest-700 transition-colors">
-                TRAVELLO
-              </span>
-              <span className="text-[10px] font-bold text-forest-600 tracking-wider uppercase">
-                Green & Inclusive Travel
-              </span>
-            </div>
-          </Link>
+    <div className="min-h-screen bg-gradient-to-b from-[#f2f6f3] via-[#f7f9f7] to-[#eef3ef] py-6 sm:py-10 px-3 sm:px-6 lg:px-8 font-sans-ui text-forest-950">
+      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-14">
 
-          <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-sand-700">
-            <a href="#how-it-works" className="hover:text-forest-800 transition-colors">How It Works</a>
-            <a href="#destinations" className="hover:text-forest-800 transition-colors">Destinations</a>
-            <a href="#ai-intelligence" className="hover:text-forest-800 transition-colors">AI Intelligence</a>
-            <a href="#features" className="hover:text-forest-800 transition-colors">Features</a>
-            <a href="#accessibility" className="hover:text-forest-800 transition-colors">Accessibility</a>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              to="/dashboard"
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 rounded-xl border border-forest-200/80 transition-all"
-            >
-              <BarChart3 className="w-3.5 h-3.5 text-forest-600" />
-              Manager Demo
-            </Link>
-            <Link
-              to="/login"
-              className="px-5 py-2.5 bg-forest-700 hover:bg-forest-800 text-white rounded-xl text-sm font-bold shadow-md shadow-forest-800/20 hover:shadow-lg transition-all flex items-center gap-2"
-            >
-              Launch App
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* ── Hero Section ── */}
-      <section className="relative min-h-[92vh] flex items-center pt-28 pb-16 overflow-hidden bg-gradient-to-b from-forest-950 via-forest-900 to-forest-950 text-white">
-        {/* Background visual textures */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.18),transparent_50%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.12),transparent_50%)] pointer-events-none" />
-        
-        {/* Ambient floating elements */}
-        <div className="absolute top-1/4 left-[5%] w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl animate-float pointer-events-none" />
-        <div className="absolute bottom-1/4 right-[5%] w-96 h-96 bg-green-400/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '3s' }} />
-
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
-          }}
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* Left Column: Hero Text */}
-            <div className="lg:col-span-7 space-y-7">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/15 text-emerald-300 text-xs sm:text-sm font-semibold animate-fade-in shadow-sm">
-                <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-sm shadow-emerald-400/50" />
-                Smart India Hackathon PS5 • Green & Accessible Travel Platform
+        {/* ── 1. HERO SECTION ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
+          
+          {/* Left Column: Purpose Headline & CTAs */}
+          <div className="lg:col-span-6 space-y-6 sm:space-y-8 pr-0 lg:pr-4">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100/80 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-full">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Green & Inclusive Travel Platform
               </div>
 
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.05] text-white">
-                Travel with purpose.
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-green-400 to-teal-300">
-                  Leave a lighter
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-forest-950 leading-[1.15]">
+                Travel with purpose.{' '}
+                <span className="text-emerald-700 block font-normal italic">
+                  Leave a lighter footprint behind.
                 </span>
-                <br />
-                footprint behind.
               </h1>
-
-              {/* Subheading */}
-              <p className="text-lg sm:text-xl text-forest-200/85 leading-relaxed max-w-2xl">
-                Discover destinations with real-time sustainability health profiles. Plan AI-optimized low-impact itineraries, complete verified eco-challenges, and make tourism beneficial for local communities.
+              
+              <p className="text-base sm:text-lg text-sand-700 max-w-xl leading-relaxed font-normal">
+                Discover destinations with real-time sustainability insights, plan accessible journeys, complete eco-challenges and support local communities.
               </p>
+            </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                <Link
-                  to="/login"
-                  className="group px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-forest-950 rounded-2xl font-bold text-base sm:text-lg transition-all duration-200 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/35 flex items-center justify-center gap-3 text-center"
-                >
-                  Start Your Journey Free
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                to="/trip-planner"
+                className="px-6 py-3.5 bg-forest-800 hover:bg-forest-900 text-white font-bold rounded-xl shadow-lg shadow-forest-900/20 hover:shadow-xl transition-all duration-200 flex items-center gap-2 text-sm sm:text-base group"
+              >
+                Plan Your Trip
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
 
-                <Link
-                  to="/home"
-                  className="px-8 py-4 bg-white/10 hover:bg-white/15 backdrop-blur-md text-white border border-white/20 rounded-2xl font-bold text-base sm:text-lg transition-all duration-200 flex items-center justify-center gap-3 text-center"
-                >
-                  <Play className="w-4 h-4 text-emerald-300 fill-current" />
-                  Explore Live Demo
-                </Link>
+              <button
+                onClick={() => navigate('/destinations/matheran')}
+                className="px-6 py-3.5 bg-white/90 border border-sand-300/80 hover:bg-white text-forest-900 font-bold rounded-xl transition-all duration-200 flex items-center gap-2 text-sm sm:text-base shadow-2xs hover:shadow-md"
+              >
+                <Play className="w-4 h-4 fill-forest-900 text-forest-900" />
+                Explore Live Demo
+              </button>
+            </div>
+
+            {/* Rating / Social Proof */}
+            <div className="flex items-center gap-4 pt-2">
+              <div className="flex items-center -space-x-2.5">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                  alt="Explorer"
+                  className="w-9 h-9 rounded-full ring-2 ring-white object-cover shadow-xs"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                  alt="Explorer"
+                  className="w-9 h-9 rounded-full ring-2 ring-white object-cover shadow-xs"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+                  alt="Explorer"
+                  className="w-9 h-9 rounded-full ring-2 ring-white object-cover shadow-xs"
+                />
+                <div className="w-9 h-9 rounded-full bg-emerald-800 text-white font-bold text-xs flex items-center justify-center ring-2 ring-white shadow-xs">
+                  12K+
+                </div>
               </div>
 
-              {/* Social Proof & Trust Badges */}
-              <div className="pt-6 border-t border-white/10 flex flex-wrap items-center gap-6 text-sm text-forest-300">
-                <div className="flex items-center -space-x-2.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&auto=format"
-                    alt="Traveler"
-                    className="w-10 h-10 rounded-full border-2 border-forest-900 object-cover"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&auto=format"
-                    alt="Traveler"
-                    className="w-10 h-10 rounded-full border-2 border-forest-900 object-cover"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&auto=format"
-                    alt="Traveler"
-                    className="w-10 h-10 rounded-full border-2 border-forest-900 object-cover"
-                  />
-                  <div className="w-10 h-10 rounded-full bg-emerald-700 border-2 border-forest-900 flex items-center justify-center text-white text-xs font-bold">
-                    +12k
-                  </div>
-                </div>
-
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-1 text-amber-400">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex text-amber-500">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
-                    <span className="text-white font-bold ml-1.5">4.9/5</span>
                   </div>
-                  <p className="text-xs text-forest-300/80">
-                    Trusted by 12,000+ conscious explorers & 45 park authorities
+                  <span className="text-sm font-black text-forest-950">4.9/5</span>
+                </div>
+                <p className="text-xs text-sand-600 font-medium mt-0.5">
+                  Trusted by 12,000+ conscious explorers & 45 park authorities
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Featured Destination Live Showcase */}
+          <div className="lg:col-span-6 relative">
+            <div className="absolute -top-6 -right-6 w-32 h-32 bg-emerald-200/40 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-6 -left-6 w-36 h-36 bg-forest-300/30 rounded-full blur-2xl pointer-events-none" />
+
+            {/* Main Featured Hero Card */}
+            <div className="relative rounded-3xl overflow-hidden border border-emerald-900/10 shadow-2xl bg-forest-950 text-white">
+              
+              <div className="relative h-[340px] sm:h-[380px] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=700&fit=crop&auto=format"
+                  alt="Matheran Eco-Zone"
+                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+                />
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/40 to-black/20" />
+
+                <div className="absolute top-4 left-4">
+                  <div className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-forest-950 text-xs font-bold flex items-center gap-2 shadow-md">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Health Monitoring
+                  </div>
+                </div>
+
+                <div className="absolute bottom-28 left-6 right-6 space-y-1">
+                  <span className="text-[10px] font-extrabold tracking-widest text-emerald-300 uppercase">
+                    FEATURED DESTINATION
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    Matheran Eco-Zone
+                  </h2>
+                  <p className="text-xs sm:text-sm text-sand-200/90 font-medium">
+                    Maharashtra, India • Asia's only automobile-free hill station
+                  </p>
+                </div>
+              </div>
+
+              {/* Integrated Metrics Overlay Panel */}
+              <div className="p-4 sm:p-5 bg-forest-900/95 backdrop-blur-xl border-t border-white/10 space-y-3">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+                  
+                  {/* Eco Score */}
+                  <div className="bg-forest-950/80 rounded-2xl p-2.5 sm:p-3 border border-emerald-500/20 flex flex-col items-center justify-center">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">ECO SCORE</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-black ring-1 ring-emerald-400/40">
+                        82
+                      </div>
+                      <div className="text-left">
+                        <span className="text-xs font-bold text-white block leading-none">82</span>
+                        <span className="text-[10px] font-semibold text-emerald-400 block">Excellent</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Crowd Status */}
+                  <div className="bg-forest-950/80 rounded-2xl p-2.5 sm:p-3 border border-amber-500/20 flex flex-col items-center justify-center">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">CROWD STATUS</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <div className="w-7 h-7 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs">
+                        <Users className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="text-left">
+                        <span className="text-xs font-bold text-white block leading-none">Moderate</span>
+                        <span className="text-[10px] font-semibold text-amber-300 block">68%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Impact Points */}
+                  <div className="bg-forest-950/80 rounded-2xl p-2.5 sm:p-3 border border-emerald-500/20 flex flex-col items-center justify-center">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">IMPACT POINTS</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs">
+                        <Sprout className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="text-left">
+                        <span className="text-xs font-bold text-white block leading-none">+50</span>
+                        <span className="text-[10px] font-semibold text-emerald-300 block">Today</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-950/90 rounded-2xl p-3 border border-emerald-500/30 flex items-start gap-2.5">
+                  <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div className="text-xs text-emerald-100/90 leading-relaxed">
+                    <strong className="text-emerald-300 font-bold">AI Recommendation:</strong>{' '}
+                    Sunset Point is crowded (+200 visitors). Head to Panorama Trail for a 42% lower footfall & +30 impact points
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 px-3 shadow-xl border border-sand-200 flex items-center gap-2 animate-bounce-slow">
+                <div className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">
+                  🏆
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-forest-950 leading-tight">Refill Champion</p>
+                  <p className="text-[10px] font-extrabold text-emerald-600">+50 Impact Points Earned</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ── 2. TODAY AT A GLANCE & QUICK ACTIONS ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-9 space-y-3">
+            <h3 className="text-base font-bold text-forest-950 tracking-tight">Today at a Glance</h3>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
+              <div className="bg-emerald-50/70 border border-emerald-200/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-2">
+                  <Leaf className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-sand-600">Eco Score</p>
+                  <p className="text-2xl font-black text-forest-950 tracking-tight">82</p>
+                  <p className="text-xs font-bold text-emerald-700 mt-0.5">Excellent</p>
+                </div>
+              </div>
+
+              <div className="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all">
+                <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-2">
+                  <Users className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-sand-600">Crowd Status</p>
+                  <p className="text-2xl font-black text-forest-950 tracking-tight">Moderate</p>
+                  <p className="text-xs font-bold text-amber-700 mt-0.5">68%</p>
+                </div>
+              </div>
+
+              <div className="bg-sky-50/70 border border-sky-200/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all">
+                <div className="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-2">
+                  <Droplets className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-sand-600">Waste Pressure</p>
+                  <p className="text-2xl font-black text-forest-950 tracking-tight">Low</p>
+                  <p className="text-xs font-bold text-sky-700 mt-0.5">32%</p>
+                </div>
+              </div>
+
+              <div className="bg-purple-50/70 border border-purple-200/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all">
+                <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-2">
+                  <Accessibility className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-sand-600">Accessibility</p>
+                  <p className="text-2xl font-black text-forest-950 tracking-tight">Good</p>
+                  <p className="text-xs font-bold text-purple-700 mt-0.5">76%</p>
+                </div>
+              </div>
+
+              <div className="bg-emerald-50/70 border border-emerald-200/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all col-span-2 sm:col-span-1">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-2">
+                  <Sprout className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-sand-600">Your Impact</p>
+                  <p className="text-2xl font-black text-forest-950 tracking-tight">{user.impactPoints || 350}</p>
+                  <p className="text-xs font-bold text-emerald-700 mt-0.5">Points</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="text-base font-bold text-forest-950 tracking-tight">Quick Actions</h3>
+            
+            <div className="bg-white rounded-2xl border border-sand-200/80 p-3 shadow-2xs space-y-1.5">
+              <Link
+                to="/trip-planner"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50/80 text-xs font-bold text-forest-950 transition-colors group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                    <Compass className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Plan Accessible Trip</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-sand-400 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+
+              <Link
+                to="/destinations"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50/80 text-xs font-bold text-forest-950 transition-colors group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+                    <Building2 className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Find Accessible Stay</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-sand-400 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+
+              <Link
+                to="/reports/new"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50/80 text-xs font-bold text-forest-950 transition-colors group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Report an Issue</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-sand-400 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+
+              <Link
+                to="/challenges"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50/80 text-xs font-bold text-forest-950 transition-colors group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center">
+                    <Trophy className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Join Eco-Challenge</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-sand-400 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 3. MIDDLE 3-COLUMN SECTION ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Column 1: Your Upcoming Trip */}
+          <div className="bg-white rounded-3xl border border-sand-200/80 p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-5">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-forest-950">Your Upcoming Trip</h3>
+                <Link to="/trip-planner" className="text-xs font-bold text-forest-700 hover:text-forest-900">
+                  View Details
+                </Link>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop"
+                  alt="Matheran"
+                  className="w-14 h-14 rounded-2xl object-cover shrink-0 shadow-2xs"
+                />
+                <div>
+                  <h4 className="text-sm font-extrabold text-forest-950">Matheran, Maharashtra</h4>
+                  <p className="text-xs text-sand-600 font-medium">2 Days • Family Trip • Accessible</p>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold">
+                      Eco-Friendly
+                    </span>
+                    <span className="px-2 py-0.5 bg-sky-100 text-sky-800 rounded-md text-[10px] font-bold">
+                      Wheelchair Accessible
+                    </span>
+                    <span className="px-2 py-0.5 bg-sand-100 text-sand-700 rounded-md text-[10px] font-bold">
+                      18-19 May 2025
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-2">
+                <p className="text-xs font-bold text-sand-500 uppercase tracking-wider">Itinerary Overview</p>
+                <div className="space-y-2.5 relative pl-4 border-l-2 border-emerald-200">
+                  <div className="relative">
+                    <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-white" />
+                    <div className="flex items-center justify-between text-xs">
+                      <div>
+                        <p className="font-bold text-forest-950">Panorama Point ♿</p>
+                        <p className="text-[11px] text-sand-500">Low crowd • Scenic View</p>
+                      </div>
+                      <span className="text-[11px] text-sand-400 font-semibold">9:00 AM</span>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-white" />
+                    <div className="flex items-center justify-between text-xs">
+                      <div>
+                        <p className="font-bold text-forest-950">Local Community Cafe</p>
+                        <p className="text-[11px] text-sand-500">Support Local • Vegetarian</p>
+                      </div>
+                      <span className="text-[11px] text-sand-400 font-semibold">1:00 PM</span>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-white" />
+                    <div className="flex items-center justify-between text-xs">
+                      <div>
+                        <p className="font-bold text-forest-950">Accessible Nature Trail</p>
+                        <p className="text-[11px] text-sand-500">Step-free • Easy</p>
+                      </div>
+                      <span className="text-[11px] text-sand-400 font-semibold">4:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-emerald-50/80 rounded-2xl p-3 border border-emerald-200/80 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-700 text-lg">
+                  💧
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-forest-950">Sustainable Tip</p>
+                  <p className="text-[11px] text-sand-700 leading-snug">
+                    Carry a reusable bottle. Water demand is High in this area.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Hero Visual Showcase */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                {/* Glowing border back-layer */}
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-60 transition duration-1000 animate-pulse-slow" />
-
-                {/* Main Card Container */}
-                <div className="relative rounded-3xl overflow-hidden border border-white/20 bg-forest-900/80 backdrop-blur-xl shadow-2xl">
-                  {/* Hero Showcase Image */}
-                  <div className="relative h-72 sm:h-80 overflow-hidden">
-                    <img
-                      src="https://www.clubmahindra.com/blog/images/Matheran-resized.jpg"
-                      alt="Sahyadri Western Ghats Matheran"
-                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/40 to-transparent" />
-                    
-                    {/* Live Badge */}
-                    <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-black/50 backdrop-blur-md rounded-full border border-white/20 text-xs font-bold text-white">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                      Live Health Monitoring
-                    </div>
-
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">Featured Eco Hub</span>
-                      <h3 className="text-2xl font-black text-white">Matheran Eco-Zone</h3>
-                      <p className="text-sm text-forest-200/90 flex items-center gap-1.5 mt-0.5">
-                        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                        Maharashtra, India • Asia's only automobile-free hill station
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Interactive Snapshot Details */}
-                  <div className="p-5 space-y-4 bg-forest-900/90">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-white/5 border border-white/10 rounded-2xl p-3 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-bold text-base">
-                          82
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold text-forest-300 uppercase">Eco Score</p>
-                          <p className="text-xs font-bold text-emerald-400">Excellent Health</p>
-                        </div>
-                      </div>
-
-                      <div className="bg-white/5 border border-white/10 rounded-2xl p-3 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 font-bold text-base">
-                          68%
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold text-forest-300 uppercase">Crowd Status</p>
-                          <p className="text-xs font-bold text-amber-300">Moderate Flow</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Dynamic AI Recommendation Preview Box */}
-                    <div className="bg-gradient-to-r from-emerald-950/80 to-forest-900/90 border border-emerald-500/30 rounded-2xl p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-forest-950 shrink-0 font-black">
-                          <Sparkles className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs font-bold text-emerald-300">AI Real-Time Recommendation</p>
-                          <p className="text-xs text-white/90 mt-1 leading-snug">
-                            "Sunset Point is crowded (+200 visitors). Head to <strong>Charlotte Lake Trail</strong> for 42% lower footfall & +30 impact points!"
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Achievement Badge */}
-                <div className="absolute -bottom-6 -left-6 bg-white text-forest-900 p-3.5 rounded-2xl shadow-2xl border border-sand-200 hidden sm:flex items-center gap-3 animate-float">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl">
-                    🏆
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-forest-900">Refill Champion</p>
-                    <p className="text-[11px] font-semibold text-emerald-600">+50 Impact Points Earned</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── Impact Metrics Bar ── */}
-      <section className="relative z-20 -mt-8 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-white rounded-3xl border border-sand-200/90 p-6 sm:p-8 shadow-xl shadow-sand-300/20 grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { value: '12,850+', label: 'Active Eco-Travelers', desc: 'Making mindful journeys', icon: Globe, color: 'text-emerald-600 bg-emerald-50' },
-            { value: '48.2 Tons', label: 'CO₂ Avoided', desc: 'Through smart low-carbon routes', icon: Leaf, color: 'text-green-600 bg-green-50' },
-            { value: '85+', label: 'Verified Challenges', desc: 'Real impact with photo evidence', icon: Trophy, color: 'text-amber-600 bg-amber-50' },
-            { value: '100%', label: 'Explainable AI', desc: 'Zero mystery recommendations', icon: Sparkles, color: 'text-blue-600 bg-blue-50' },
-          ].map((stat, i) => (
-            <div key={i} className="flex items-start gap-4">
-              <div className={cn('w-12 h-12 rounded-2xl flex items-center justify-center shrink-0', stat.color)}>
-                <stat.icon className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="text-2xl sm:text-3xl font-black text-forest-900 tracking-tight">{stat.value}</h4>
-                <p className="text-sm font-bold text-forest-800">{stat.label}</p>
-                <p className="text-xs text-sand-500">{stat.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── How It Works (The Responsible Travel Loop) ── */}
-      <section id="how-it-works" className="py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-forest-100 text-forest-800 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3">
-            <Compass className="w-3.5 h-3.5 text-forest-600" />
-            The Closed-Loop Ecosystem
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-forest-900 tracking-tight mb-4">
-            How The Green Travel Loop Works
-          </h2>
-          <p className="text-base sm:text-lg text-sand-600 leading-relaxed">
-            Every conscious decision you make preserves ecosystems, empowers local homestays, and feeds real-time intelligence back to destination managers.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              step: '01',
-              title: 'Discover Transparently',
-              desc: 'Browse destinations with granular sustainability factors, crowd indices, and accessibility grades before booking.',
-              img: 'https://www.clubmahindra.com/blog/images/Matheran-resized.jpg',
-              badge: 'Matheran Western Ghats',
-              icon: Globe,
-            },
-            {
-              step: '02',
-              title: 'Plan With Explainable AI',
-              desc: 'Get personalized day plans that bypass overtourism hotspots, pick green transport, and optimize your budget.',
-              img: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=800&h=600&fit=crop&auto=format',
-              badge: 'Munnar Tea Hills, Kerala',
-              icon: Sparkles,
-            },
-            {
-              step: '03',
-              title: 'Act, Prove & Earn',
-              desc: 'Complete local cleanup or trail challenges, submit photo and timestamp evidence, and earn verified impact points.',
-              img: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&h=600&fit=crop&auto=format',
-              badge: 'Palolem Beach, Goa',
-              icon: ShieldCheck,
-            },
-            {
-              step: '04',
-              title: 'Protect & Improve',
-              desc: 'Report issues on the trail. Your crowd data and reports automatically alert destination authorities to take action.',
-              img: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&h=600&fit=crop&auto=format',
-              badge: 'Manali, Himachal Pradesh',
-              icon: TrendingUp,
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="group bg-white rounded-3xl border border-sand-200 overflow-hidden hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col"
+            <Link
+              to="/trip-planner"
+              className="w-full py-2.5 bg-sand-100 hover:bg-sand-200 text-forest-950 font-bold rounded-xl text-xs text-center transition-colors flex items-center justify-center gap-1.5"
             >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute top-3.5 left-3.5">
-                  <span className="w-8 h-8 rounded-xl bg-white/90 backdrop-blur-md text-forest-900 font-black text-xs flex items-center justify-center shadow">
-                    {item.step}
-                  </span>
-                </div>
-                <div className="absolute bottom-3.5 left-3.5 right-3.5">
-                  <span className="px-2.5 py-1 bg-emerald-500/90 text-white rounded-full text-[11px] font-bold">
-                    {item.badge}
-                  </span>
+              View Full Itinerary <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Column 2: Eco-Challenge */}
+          <div className="bg-white rounded-3xl border border-sand-200/80 p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-5">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-forest-950">Eco-Challenge</h3>
+                <Link to="/challenges" className="text-xs font-bold text-forest-700 hover:text-forest-900">
+                  View All
+                </Link>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sand-500 uppercase tracking-wider">Today's Challenge</p>
+                <div className="bg-emerald-50/80 rounded-2xl p-4 border border-emerald-200/80 space-y-2.5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                      🛍️
+                    </div>
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-forest-950 leading-snug">
+                        {todayChallenge.title}
+                      </h4>
+                      <p className="text-[11px] text-sand-600">{todayChallenge.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="px-2 py-0.5 bg-emerald-200/70 text-emerald-900 font-extrabold rounded-md text-[10px]">
+                      +{todayChallenge.points} Points
+                    </span>
+                    <span className="px-2 py-0.5 bg-white text-sand-700 font-bold rounded-md text-[10px] border border-sand-200">
+                      ⏱ Easy
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-forest-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-sand-600 leading-relaxed">{item.desc}</p>
-                </div>
-                <div className="pt-4 mt-4 border-t border-sand-100 flex items-center text-xs font-bold text-forest-600 group-hover:text-forest-800">
-                  <span>Learn more</span>
-                  <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+              <div className="space-y-2 pt-1">
+                <p className="text-xs font-bold text-sand-500 uppercase tracking-wider">Your Progress</p>
+                <div className="flex items-center gap-4 bg-sand-50/80 p-3 rounded-2xl border border-sand-200/60">
+                  <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                    <svg className="w-full h-full transform -rotate-90">
+                      <circle cx="28" cy="28" r="22" stroke="#e5e1d5" strokeWidth="4" fill="transparent" />
+                      <circle
+                        cx="28"
+                        cy="28"
+                        r="22"
+                        stroke="#16a34a"
+                        strokeWidth="4"
+                        fill="transparent"
+                        strokeDasharray="138"
+                        strokeDashoffset="55"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <span className="absolute text-[10px] font-black text-forest-950">3/5</span>
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-extrabold text-forest-950">+120 Points Earned</p>
+                    <div className="flex items-center gap-1 text-[11px] text-sand-600 font-medium mt-0.5">
+                      <span>🏆</span>
+                      <span>Next Badge: <strong>Green Explorer</strong></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── Featured Destinations Health Showcase ── */}
-      <section id="destinations" className="py-20 px-4 sm:px-6 bg-forest-50/50 border-y border-sand-200/60">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2">
-                <Leaf className="w-3.5 h-3.5 text-emerald-600" />
-                Live Destination Profiles
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-forest-900 tracking-tight">
-                Know The Real Impact Before You Travel
-              </h2>
-              <p className="text-base text-sand-600 mt-1 max-w-2xl">
-                Every destination in Travello has an open, verifiable sustainability health score computed from real visitor flow, waste pressure, and local ecological sensitivity.
-              </p>
+            <button
+              onClick={handleStartChallenge}
+              disabled={challengeStarted}
+              className={cn(
+                'w-full py-3 rounded-xl font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-2',
+                challengeStarted
+                  ? 'bg-emerald-100 text-emerald-800 cursor-default'
+                  : 'bg-forest-800 hover:bg-forest-900 text-white'
+              )}
+            >
+              {challengeStarted ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-700" /> Challenge Active
+                </>
+              ) : (
+                'Start Challenge'
+              )}
+            </button>
+          </div>
+
+          {/* Column 3: Recent Activity */}
+          <div className="bg-white rounded-3xl border border-sand-200/80 p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-5">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-forest-950">Recent Activity</h3>
+                <Link to="/social" className="text-xs font-bold text-forest-700 hover:text-forest-900">
+                  View All
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-sand-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Leaf className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-forest-950 leading-tight">You earned +20 points</p>
+                    <p className="text-[11px] text-sand-500 truncate">Reusable Bag Challenge</p>
+                  </div>
+                  <span className="text-[10px] font-semibold text-sand-400 shrink-0">2h ago</span>
+                </div>
+
+                <div className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-sand-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <AlertTriangle className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-forest-950 leading-tight">Reported an issue</p>
+                    <p className="text-[11px] text-sand-500 truncate">Broken ramp at Market Area</p>
+                  </div>
+                  <span className="text-[10px] font-semibold text-sand-400 shrink-0">5h ago</span>
+                </div>
+
+                <div className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-sand-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Trophy className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-forest-950 leading-tight">Badge Unlocked</p>
+                    <p className="text-[11px] text-sand-500 truncate">Refill Champion</p>
+                  </div>
+                  <span className="text-[10px] font-semibold text-sand-400 shrink-0">1d ago</span>
+                </div>
+
+                <div className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-sand-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Eye className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-forest-950 leading-tight">Your report is under review</p>
+                    <p className="text-[11px] text-sand-500 truncate">Waste overflow at Trail 2</p>
+                  </div>
+                  <span className="text-[10px] font-semibold text-sand-400 shrink-0">1d ago</span>
+                </div>
+              </div>
             </div>
 
             <Link
-              to="/destinations"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-sand-200 hover:border-forest-300 text-forest-800 rounded-xl font-bold text-sm shadow-sm hover:shadow transition-all shrink-0"
+              to="/social"
+              className="w-full py-2.5 bg-sand-100 hover:bg-sand-200 text-forest-950 font-bold rounded-xl text-xs text-center transition-colors block"
             >
-              Browse All Destinations
-              <ArrowRight className="w-4 h-4" />
+              View Activity Feed
+            </Link>
+          </div>
+        </div>
+
+        {/* ── 4. ACCESSIBILITY & HOSPITALITY SECTION ── */}
+        <div className="bg-white rounded-3xl border border-sand-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-forest-950 tracking-tight">
+                Accessibility & Hospitality
+              </h3>
+              <p className="text-xs sm:text-sm text-sand-600 mt-0.5">
+                Verified eco-friendly stays, accessible transit, and dining spots
+              </p>
+            </div>
+            <Link
+              to="/destinations"
+              className="text-xs sm:text-sm font-bold text-forest-700 hover:text-forest-900"
+            >
+              View All
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-3">
+                <Building className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Stay</p>
+                <p className="text-xs font-extrabold text-purple-700 mt-0.5">85% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">18 Verified</p>
+              </div>
+            </div>
+
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+                <Mountain className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Attractions</p>
+                <p className="text-xs font-extrabold text-emerald-700 mt-0.5">78% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">24 Verified</p>
+              </div>
+            </div>
+
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-3">
+                <Bus className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Transport</p>
+                <p className="text-xs font-extrabold text-sky-700 mt-0.5">72% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">12 Verified</p>
+              </div>
+            </div>
+
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
+                <Utensils className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Food & Dining</p>
+                <p className="text-xs font-extrabold text-amber-700 mt-0.5">80% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">16 Verified</p>
+              </div>
+            </div>
+
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-3 text-sm font-black">
+                🚽
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Toilets</p>
+                <p className="text-xs font-extrabold text-teal-700 mt-0.5">65% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">09 Verified</p>
+              </div>
+            </div>
+
+            <div className="bg-sand-50/80 border border-sand-200/60 rounded-2xl p-4 flex flex-col justify-between hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-3">
+                <Car className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-forest-950">Parking</p>
+                <p className="text-xs font-extrabold text-indigo-700 mt-0.5">70% Accessible</p>
+                <p className="text-[11px] text-sand-500 mt-0.5">11 Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 5. FEATURED DESTINATIONS ── */}
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2">
+                <Leaf className="w-3.5 h-3.5 text-emerald-600" />
+                Live Destination Profiles
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-forest-950 tracking-tight">
+                Know The Real Impact Before You Travel
+              </h2>
+            </div>
+            <Link
+              to="/destinations"
+              className="text-sm font-bold text-forest-700 hover:text-forest-900 shrink-0"
+            >
+              Browse All Destinations →
             </Link>
           </div>
 
@@ -412,418 +736,79 @@ export function LandingPage() {
             {destinations.map((dest) => (
               <div
                 key={dest.id}
-                className="group bg-white rounded-3xl border border-sand-200 overflow-hidden hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col"
+                className="group bg-white rounded-3xl border border-sand-200/80 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Header Image */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   <img
                     src={dest.image}
                     alt={dest.name}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-                  
-                  {/* Top Badges */}
-                  <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
-                    <span className="px-3 py-1 bg-black/40 backdrop-blur-md text-white text-xs font-bold rounded-full border border-white/20">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md text-white text-[11px] font-bold rounded-full border border-white/20">
                       {dest.region}
                     </span>
-                    <span className="px-3 py-1 bg-white/95 backdrop-blur-md rounded-full text-xs font-black text-forest-900 shadow-md">
-                      Score: {dest.sustainabilityScore}/100
-                    </span>
                   </div>
-
-                  <div className="absolute bottom-3.5 left-4 right-4 text-white">
-                    <h3 className="text-2xl font-black">{dest.name}</h3>
-                    <p className="text-xs text-white/85 flex items-center gap-1 mt-0.5">
-                      <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                      {dest.country} • {dest.tags.join(' • ')}
+                  <div className="absolute bottom-3 left-3 right-3 text-white">
+                    <h4 className="text-xl font-black">{dest.name}</h4>
+                    <p className="text-xs text-white/80 flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3 h-3 text-emerald-400" /> {dest.country}
                     </p>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <p className="text-sm text-sand-700 leading-relaxed line-clamp-2">
+                <div className="p-5 space-y-4">
+                  <p className="text-xs text-sand-600 leading-relaxed line-clamp-2">
                     {dest.description}
                   </p>
-
-                  <div className="space-y-2.5 p-3.5 bg-sand-50 rounded-2xl border border-sand-200/60">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-sand-600 font-semibold">Visitor Pressure</span>
-                      <span className={cn(
-                        'font-bold px-2 py-0.5 rounded-full',
-                        dest.visitorPressure === 'High' || dest.visitorPressure === 'Very High'
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-green-100 text-green-700'
-                      )}>
-                        {dest.visitorPressure}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-sand-600 font-semibold">Wheelchair Accessible</span>
-                      <span className="font-bold text-forest-800">
-                        {dest.accessibility.wheelchairAccessible ? '✅ Yes' : '⚠️ Partial / Trails'}
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-sand-100 text-xs">
+                    <span className="text-sand-500 font-semibold">Eco Score</span>
+                    <span className="font-extrabold text-emerald-700">{dest.sustainabilityScore}/100</span>
                   </div>
-
                   <Link
                     to={`/destinations/${dest.id}`}
-                    className="w-full py-3 bg-forest-700 hover:bg-forest-800 text-white rounded-xl font-bold text-sm text-center shadow-sm transition-all flex items-center justify-center gap-2 group-hover:shadow-md"
+                    className="w-full py-2.5 bg-forest-800 hover:bg-forest-900 text-white rounded-xl font-bold text-xs text-center transition-colors flex items-center justify-center gap-1.5"
                   >
-                    View Destination Hub
-                    <ArrowUpRight className="w-4 h-4" />
+                    View Destination Hub <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* ── AI Intelligence Demo: Transparent AI in Action ── */}
-      <section id="ai-intelligence" className="py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-amber-100 text-amber-800 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            Explainable AI Engine
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-forest-900 tracking-tight mb-4">
-            AI That Explains Every Single Choice
-          </h2>
-          <p className="text-base sm:text-lg text-sand-600">
-            No black-box algorithms. See how Travello redirects overtourism into peaceful, sustainable alternatives.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-3xl border border-sand-200 p-6 sm:p-10 shadow-2xl shadow-sand-300/20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            
-            {/* Left: Overcrowded Hotspot */}
-            <div className="rounded-2xl border-2 border-red-200 bg-red-50/40 p-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-extrabold rounded-full flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
-                    Traditional Hotspot Detected
-                  </span>
-                  <span className="text-xs font-bold text-red-600">Avoid Peak Hours</span>
-                </div>
-
-                <div className="relative h-44 rounded-xl overflow-hidden mb-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=800&h=600&fit=crop&auto=format"
-                    alt="Crowded viewpoint Echo Point"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-red-950/20" />
-                  <div className="absolute bottom-3 left-3 text-white font-bold text-lg drop-shadow">
-                    Sunset Point, Matheran
-                  </div>
-                </div>
-
-                <div className="space-y-2 text-sm text-sand-700">
-                  <div className="flex items-center justify-between py-1 border-b border-red-100">
-                    <span className="text-sand-500">Visitor Density</span>
-                    <span className="font-bold text-red-600">220+ Visitors/hr (Extreme)</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-red-100">
-                    <span className="text-sand-500">Wait Time at Entry</span>
-                    <span className="font-bold text-red-600">~45 minutes</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-red-100">
-                    <span className="text-sand-500">Waste Risk</span>
-                    <span className="font-bold text-red-600">High trail litter risk</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 p-3 bg-red-100/60 rounded-xl text-xs text-red-800 font-medium">
-                ⚠️ High crowd pressure harms trail biodiversity and creates long queues.
-              </div>
-            </div>
-
-            {/* Right: Travello AI Smart Alternative */}
-            <div className="rounded-2xl border-2 border-emerald-400 bg-emerald-50/40 p-6 flex flex-col justify-between shadow-lg shadow-emerald-500/10">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-extrabold rounded-full flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    Recommended Eco Alternative
-                  </span>
-                  <span className="text-xs font-bold text-emerald-700">Recommended by Travello AI</span>
-                </div>
-
-                <div className="relative h-44 rounded-xl overflow-hidden mb-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=800&h=600&fit=crop&auto=format"
-                    alt="Charlotte Lake Forest Trail Matheran"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-emerald-950/20" />
-                  <div className="absolute bottom-3 left-3 text-white font-bold text-lg drop-shadow">
-                    Charlotte Lake & Forest Canopy Trail
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-xs mb-4">
-                  {[
-                    '🌿 42% Lower Crowd Pressure',
-                    '♿ Step-Free Accessible Start',
-                    '💰 ₹200 Cheaper Entry / Food',
-                    '🏡 Supports Local Guide Co-op',
-                    '🚶 Pristine Canopy Views',
-                    '🏆 +35 Impact Reward Points',
-                  ].map((benefit, i) => (
-                    <div key={i} className="p-2 bg-white rounded-lg border border-emerald-200/80 font-bold text-emerald-800 flex items-center">
-                      {benefit}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 p-4 bg-emerald-100/80 border border-emerald-200 rounded-xl text-xs text-emerald-900">
-                <p className="font-bold mb-0.5">Why the AI chose this for you:</p>
-                <p className="leading-relaxed">
-                  "You preserve local vegetation while enjoying identical 360° valley views without queues. You also earn double points toward your next badge."
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="mt-8 text-center">
-            <Link
-              to="/trip-planner"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-forest-700 hover:bg-forest-800 text-white rounded-2xl font-bold text-base shadow-md transition-all"
-            >
-              <Sparkles className="w-5 h-5 text-emerald-300" />
-              Generate Your AI Sustainable Itinerary Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Full Feature Ecosystem Grid ── */}
-      <section id="features" className="py-24 px-4 sm:px-6 bg-forest-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(34,197,94,0.1),transparent_50%)] pointer-events-none" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-1.5 bg-white/10 text-emerald-300 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3">
-              Platform Features
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
-              Everything Needed For Modern Sustainable Travel
-            </h2>
-            <p className="text-base sm:text-lg text-forest-200/80">
-              Designed from the ground up for both travelers and destination management authorities.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Leaf,
-                title: 'Real-Time Sustainability Scores',
-                desc: 'Comprehensive factor breakdowns across waste, water, carbon, biodiversity, and local community health.',
-                color: 'text-emerald-400',
-                bg: 'bg-emerald-500/10 border-emerald-500/20',
-              },
-              {
-                icon: Accessibility,
-                title: 'Accessibility-First Directory',
-                desc: 'Verified step-free routes, tactile paths, wheelchair ramp audits, and quiet sensory zones for every hub.',
-                color: 'text-blue-400',
-                bg: 'bg-blue-500/10 border-blue-500/20',
-              },
-              {
-                icon: Sparkles,
-                title: 'AI Smart Itinerary Engine',
-                desc: 'Rule-based and heuristic AI that balances budget, visitor pressure, and accessibility needs in seconds.',
-                color: 'text-amber-400',
-                bg: 'bg-amber-500/10 border-amber-500/20',
-              },
-              {
-                icon: ShieldCheck,
-                title: 'Verified Eco Challenges',
-                desc: 'Evidence-based rewards using photo validation, GPS bounding boxes, and timestamp checks.',
-                color: 'text-purple-400',
-                bg: 'bg-purple-500/10 border-purple-500/20',
-              },
-              {
-                icon: Recycle,
-                title: 'Report & Protect Community',
-                desc: 'Travelers report trail damage or waste, automatically notifying rangers and feeding manager heatmaps.',
-                color: 'text-teal-400',
-                bg: 'bg-teal-500/10 border-teal-500/20',
-              },
-              {
-                icon: BarChart3,
-                title: 'Destination Authority Dashboard',
-                desc: 'Manager tools for municipal officers and park wardens to monitor visitor flow, issues, and eco-health.',
-                color: 'text-rose-400',
-                bg: 'bg-rose-500/10 border-rose-500/20',
-              },
-            ].map((f, i) => (
-              <div
-                key={i}
-                className="bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all duration-300 group flex flex-col justify-between"
-              >
-                <div>
-                  <div className={cn('w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border', f.bg)}>
-                    <f.icon className={cn('w-6 h-6', f.color)} />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{f.title}</h3>
-                  <p className="text-sm text-forest-200/75 leading-relaxed">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Accessibility & Inclusion Spotlight ── */}
-      <section id="accessibility" className="py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="bg-gradient-to-br from-blue-950 via-forest-900 to-forest-950 rounded-3xl p-8 sm:p-12 text-white border border-white/15 overflow-hidden relative shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-7 space-y-5">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold rounded-full">
-                <Accessibility className="w-4 h-4 text-blue-400" />
-                Inclusive Tourism For All
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-white">
-                Nature Belongs to Everyone.
-              </h2>
-              <p className="text-base text-forest-200/90 leading-relaxed">
-                Travello audits trail steepness, wheelchair suitability, step-free access, and accessible restroom facilities for every attraction. We ensure travelers with disabilities or low walking endurance can travel with confidence and joy.
-              </p>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-                {[
-                  '♿ Wheelchair Routes',
-                  '🚶 Step-Free Trails',
-                  '🚻 Accessible Toilets',
-                  '🅿️ Dedicated Parking',
-                  '🎧 Audio / Sensory Guides',
-                  '🏨 Verified Eco-Stays',
-                ].map((item, i) => (
-                  <div key={i} className="p-3 bg-white/10 rounded-xl border border-white/10 text-xs font-bold text-white">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span className="text-sm font-bold text-white">Accessibility Scorecard</span>
-                  <span className="px-2.5 py-0.5 bg-emerald-400 text-forest-950 text-xs font-black rounded-full">
-                    Audited
-                  </span>
-                </div>
-                <div className="space-y-2 text-xs text-forest-200">
-                  <div className="flex justify-between py-1 border-b border-white/5">
-                    <span>Matheran Toy Train Hub</span>
-                    <span className="text-emerald-300 font-bold">100% Step-Free</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-white/5">
-                    <span>Goa South Beach Promenade</span>
-                    <span className="text-emerald-300 font-bold">Wheelchair Ramp Active</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span>Hadimba Forest Boardwalk</span>
-                    <span className="text-emerald-300 font-bold">Low Incline Grade</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Call To Action ── */}
-      <section className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
-        <div className="bg-gradient-to-br from-forest-800 to-forest-950 rounded-3xl p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl border border-sand-200">
-          <div className="max-w-2xl mx-auto relative z-10 space-y-6">
+        {/* ── 6. CALL TO ACTION ── */}
+        <div className="bg-gradient-to-br from-forest-800 to-forest-950 rounded-3xl p-8 sm:p-12 text-center text-white relative overflow-hidden shadow-2xl">
+          <div className="max-w-2xl mx-auto space-y-5">
             <span className="text-4xl">🌱</span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               Ready to travel responsibly?
             </h2>
-            <p className="text-base sm:text-lg text-forest-200/90 leading-relaxed">
-              Join thousands of eco-conscious travelers. Choose your role to explore the live interactive prototype.
+            <p className="text-sm sm:text-base text-forest-200/90 leading-relaxed">
+              Join thousands of eco-conscious travelers preserving ecosystems and supporting local communities worldwide.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link
-                to="/home"
-                className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-forest-950 rounded-2xl font-black text-base shadow-xl transition-all flex items-center justify-center gap-2"
+                to="/trip-planner"
+                className="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-forest-950 rounded-xl font-black text-sm shadow-xl transition-all flex items-center justify-center gap-2"
               >
-                <Compass className="w-5 h-5" />
-                Enter As Traveler
+                <Compass className="w-4 h-4" />
+                Plan Your Trip
               </Link>
               <Link
                 to="/dashboard"
-                className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-bold text-base border border-white/20 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold text-sm border border-white/20 transition-all flex items-center justify-center gap-2"
               >
-                <BarChart3 className="w-5 h-5 text-emerald-300" />
-                Enter As Destination Manager
+                <BarChart3 className="w-4 h-4 text-emerald-300" />
+                Manager Dashboard
               </Link>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-forest-950 text-white border-t border-white/10 py-16 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-forest-950 font-black text-lg">
-                T
-              </div>
-              <span className="text-xl font-black tracking-tight">TRAVELLO</span>
-            </div>
-            <p className="text-sm text-forest-300/80 leading-relaxed">
-              AI-Powered Green & Inclusive Travel Platform. Smart India Hackathon PS5.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-sm text-emerald-400 uppercase tracking-wider mb-3">Explore</h4>
-            <ul className="space-y-2 text-sm text-forest-300">
-              <li><Link to="/destinations" className="hover:text-white transition-colors">Destinations</Link></li>
-              <li><Link to="/trip-planner" className="hover:text-white transition-colors">AI Trip Planner</Link></li>
-              <li><Link to="/challenges" className="hover:text-white transition-colors">Eco Challenges</Link></li>
-              <li><Link to="/impact" className="hover:text-white transition-colors">Impact & Badges</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-sm text-emerald-400 uppercase tracking-wider mb-3">Management</h4>
-            <ul className="space-y-2 text-sm text-forest-300">
-              <li><Link to="/dashboard" className="hover:text-white transition-colors">Destination Dashboard</Link></li>
-              <li><Link to="/reports/new" className="hover:text-white transition-colors">Report Issue</Link></li>
-              <li><Link to="/creators" className="hover:text-white transition-colors">Creator Campaigns</Link></li>
-              <li><Link to="/social" className="hover:text-white transition-colors">Community Feed</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-sm text-emerald-400 uppercase tracking-wider mb-3">Smart India Hackathon</h4>
-            <p className="text-xs text-forest-300/80 leading-relaxed">
-              Problem Statement 5: Green & Inclusive Travel — Smart Sustainable and Accessible Hospitality.
-            </p>
-            <p className="text-xs text-forest-400/60 mt-3">
-              © {new Date().getFullYear()} Travello. All data simulated for prototype testing.
-            </p>
-          </div>
-        </div>
-      </footer>
+      </div>
     </div>
   )
 }
